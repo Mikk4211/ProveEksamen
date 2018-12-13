@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BEC Eksamen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            td,
+            th {
+                border: 1px solid black;
+                text-align: left;
+                padding: 8px;
+            }
+            tr:nth-child(even) {
+                background-color: beige;
+            }
+        </style>
+</head>
+
+<body>
+
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+<button onclick="hentkonto()">Klik for at hente konti.</button>
+    <table style="width:100%">
+        <ul id="liste"></ul>
+    </table>
+
+
+<script>
+
+function hentkonto(){  
+//deklarerer variabel
+    var xmlhttp = new XMLHttpRequest();
+
+    // ved ready state change, som beskriver hvornår requested er behandlet. 
+    xmlhttp.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200){
+
+        console.log("Hello World");
+        console.log("response : " + this.response);
+
+    // konverterer response til et json object
+    var obj = JSON.parse(this.response);
+
+    // Appender de data, jeg har indtastet i databasen.
+    var startappend = "<tr><th>ejer_navn</th><th>password</th><th>konto_navn</th><th>konto_nr</th><th>nuv_mangde</th><th>rente</th></tr>"
+    $('#liste').append($(startappend));
+    
+    // opbygger html list for at vise de data, der er i databasen. 
+    for(let index = 0; index < obj.length; index++){
+        
+        var start = '<tr>';
+        
+        var ejer_navn = '<td>'+ obj[index].ejer_navn+' </td>'
+        var password = '<td>'+ obj[index].password+' </td>'
+        var konto_navn = '<td>'+ obj[index].konto_navn+' </td>'
+        var konto_nr = '<td>'+ obj[index].konto_nr+' </td>'
+        var nuv_mangde = '<td>'+ obj[index].nuv_mangde+' </td>'
+        var rente = '<td>'+ obj[index].rente+' </td>'
+        
+                    
+        var slut = '</tr>'
+
+        var afslutning = start+ejer_navn+password+konto_navn+konto_nr+nuv_mangde+rente+slut;
+        $('#liste').append($(afslutning));
+         }
+    }
+}
+xmlhttp.open("GET", "http://localhost:5050/hent", true);
+            xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xmlhttp.send();
+}
+</script>
+</body>
+</html>

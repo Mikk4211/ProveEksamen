@@ -1,0 +1,15 @@
+I dette dokument vil jeg forsøge at forklare, hvordan man bedre kan beskytte sin database mod SQL-injections.
+
+Når der laves en SQL injection prøves der at skabe et scenarie hvor der indgår to værdier i f.eks. et username/login field, hvortil man forsøger
+at skabe et 'true', så man på den måde kan logge sig ind på en database uden hverken login eller password. Man kan f.eks indsætte en lang string, 
+hvor der på et tidspunkt eks. står 1=1, som da giver true, og databasen så godtager dette. 
+Da du ikke logger ind med et username, vil nogle databaser bare give dig det første username der er oprettet, som ofte vil være admin, der da giver
+dig rettigheder over databasen. 
+
+For at beskytte mod dette kan man først og fremmest altid holde sine programmer up-to-date, så man mindsker sandsynligheden for at der ikke er 
+sikkerheds breaches fra tidligere versioner. Dette vil ikke garantere at din database er sikker, men det bidrager til, at der ikke er nye, kendte
+måder igennem sikkerheden fra en nyopdateret version.
+
+En anden måde man kan beskytte sin database er at sørge for, at der gives færrest mulige rettigheder til ikke-admins, 'least privilege principle', og nogle gange endda admins.
+Hvis der på et website kun er behov for at bruge én type request, f.eks SELECT i SQL, er der ingen grund til at man giver rettigheder til de andre,
+såsom INSERT, UPDATE og DELETE. Dette gør at selv hvis der påtvinges adgang, får vedkommende ikke mulighed for at ødelægge strukturen på samme vis.
